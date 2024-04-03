@@ -16,6 +16,7 @@ interface UserType {
     Oid: string | undefined;
     SubOid: string | undefined;
 }
+
 export const createBook = async (book: BookType): Promise<void> => {
     const resp = await axios.post('https://localhost:7051/api/Book', book,
         {
