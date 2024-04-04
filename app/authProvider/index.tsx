@@ -44,7 +44,5 @@ function AutoLogin({ children }: any) {
             login(InteractionType.Redirect, request);
         }
     }, [error]);
-    const { accounts } = useMsal();
-    console.log(accounts[0]);
     return <>{children}</>
 }

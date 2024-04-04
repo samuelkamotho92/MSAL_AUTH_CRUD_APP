@@ -9,8 +9,6 @@ import { AuthProvider } from "./components/auth";
 import SiteHeader from "./components/SiteHeader";
 import styles from "~/styles/tailwind.css?url";
 import type { LinksFunction } from "@remix-run/node";
-import MainNavigation from "./components/MainNavigation";
-import mainStyles from "~/styles/main.css?url";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

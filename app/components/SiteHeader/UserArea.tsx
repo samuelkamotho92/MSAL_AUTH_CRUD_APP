@@ -5,7 +5,6 @@ import { InteractionStatus } from '@azure/msal-browser';
 import { createUser } from '~/api/Book';
 const UserArea = () => {
     const isAuthenticated = useIsAuthenticated();
-    console.log(isAuthenticated);
     const { inProgress } = useMsal();
     const isProgressing = inProgress === InteractionStatus.Startup
         || InteractionStatus.HandleRedirect;
@@ -15,7 +14,6 @@ const UserArea = () => {
         : <SignInButton />;
 }
 function FormatUser(user: string): string {
-    console.log(user);
     const splitUserName = user.split(" ");
     const firstInitial = splitUserName[0][0];
     const lastInitial = splitUserName[1][0]?.toUpperCase();

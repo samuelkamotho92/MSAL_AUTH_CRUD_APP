@@ -19,7 +19,6 @@ const ErrorComponent = ({ error }) => {
 const books = () => {
     const books = useLoaderData();
     return (
-
         <div>
             <AuthenticatedTemplate
             >
