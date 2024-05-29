@@ -17,13 +17,15 @@ interface UserType {
     SubOid: string | undefined;
 }
 
-export const createBook = async (book: BookType): Promise<void> => {
+export const createBook = async (book: BookType): Promise<any> => {
     const resp = await axios.post('https://localhost:7051/api/Book', book,
         {
             httpsAgent: new https.Agent({
                 rejectUnauthorized: false
             })
         });
+    console.log(resp);
+    return resp;
 }
 
 export const getBooks = async (): Promise<void> => {

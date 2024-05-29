@@ -5,10 +5,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { AuthProvider } from "./components/auth";
+import { AuthProvider } from "../app/authProvider/index";
 import SiteHeader from "./components/SiteHeader";
 import styles from "~/styles/tailwind.css?url";
 import type { LinksFunction } from "@remix-run/node";
+
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -24,11 +24,13 @@ function UserWelcome(): React.JSX.Element {
     const acct = accounts[0];
     const details = {}
     const getUserDetails = async () => {
+
         const newUser = await createUser(acct.username, acct.name, acct?.idTokenClaims?.oid, acct?.idTokenClaims?.sub);
         if (newUser.status == 201) {
-            alert("Registered successfully");
+            // alert("Registered successfully");
         } else if (newUser.status == 200) {
-            alert("Logged in successfully");
+
+            // alert("Logged in successfully");
         }
     }
     getUserDetails();

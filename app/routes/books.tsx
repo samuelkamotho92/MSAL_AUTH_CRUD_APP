@@ -3,12 +3,9 @@ import NewBook, { links as newBookLinks } from '~/components/NewBook';
 import BookList, { links as BookListLinks } from '~/components/BookList';
 import { redirect } from '@remix-run/node';
 import { createBook, getBooks } from '~/api/Book';
-import { useLoaderData } from '@remix-run/react';
+import { useActionData, useLoaderData } from '@remix-run/react';
 import { DateTime } from 'luxon';
-import { AuthenticatedTemplate, UnauthenticatedTemplate, MsalAuthenticationTemplate } from '@azure/msal-react';
-import { InteractionType } from "@azure/msal-browser";
-import { loginRequest } from '~/authProvider/authConfig';
-import { deleteBook } from '~/api/Book';
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react';
 const LoadingComponent = () => {
     return <p>Authentication in progress</p>
 }
@@ -18,11 +15,12 @@ const ErrorComponent = ({ error }) => {
 }
 const books = () => {
     const books = useLoaderData();
+    const resp: any = useActionData();
     return (
         <div>
             <AuthenticatedTemplate
             >
-                <NewBook />
+                <NewBook data={resp} />
                 <BookList books={books} />
             </AuthenticatedTemplate>
             <UnauthenticatedTemplate>
@@ -39,16 +37,16 @@ export async function loader() {
 
 
 export async function action({ request }: ActionFunctionArgs) {
+
     if (request.method == 'PUT') {
-        console.log("updating books");
+        return "updating books"
     }
     try {
-        console.log(request.method);
-        const formData = await request.formData();
-        const title = String(formData.get('title'));
-        const author = String(formData.get('author'));
-        const description = String(formData.get('description'));
-        const publishedDateString = formData.get('publishedDate');
+        const body = await request.formData();
+        const title = String(body.get('title'));
+        const author = String(body.get('author'));
+        const description = String(body.get('description'));
+        const publishedDateString = body.get('publishedDate');
         const publishedDate = publishedDateString ? DateTime.fromISO(publishedDateString.toString(), { zone: 'utc' }) : null;
         const bookData = {
             Title: title,
@@ -56,14 +54,17 @@ export async function action({ request }: ActionFunctionArgs) {
             Description: description,
             publishedDate: publishedDate
         }
-        console.log(bookData);
-        await createBook(bookData);
-        return redirect("/books");
+        const { data } = await createBook(bookData);
+        if (data?.statusCode == 200) {
+            //Toastify and
+            return redirect("/books");
+            // redirect 
+        }
     } catch (err) {
-        console.error("Error creating book:", err);
-        return null; // Return null in case of error
+        const error = err?.response?.data.errors;
+        return error;
+        // Return null in case of error
     }
-
 }
 
 
