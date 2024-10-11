@@ -32,6 +32,7 @@ const books = () => {
 
 export async function loader() {
     const books = await getBooks();
+    console.log(books,"fetch all my books");
     return books;
 }
 

@@ -2,7 +2,7 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
 import { defineConfig, loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-
+import {flatRoutes} from "remix-flat-routes";
 installGlobals();
 
 export default defineConfig(({ mode }) => {
@@ -12,6 +12,11 @@ export default defineConfig(({ mode }) => {
       'process.env.VITE_AZURE_CLIENT_ID': JSON.stringify(env.VITE_AZURE_CLIENT_ID),
       'process.env.VITE_AZURE_AUTHORITY_URL': JSON.stringify(env.VITE_AZURE_CLIENT_ID)
     },
-    plugins: [remix(), tsconfigPaths()],
+    plugins: [
+      remix({
+      routes: async (defineRoutes) => {
+        return flatRoutes('routes', defineRoutes);
+      }
+    }), tsconfigPaths()],
   }
 })
